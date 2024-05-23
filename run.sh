@@ -38,9 +38,8 @@ sudo chown -R 1000:1000 "$OPENSEARCH_DATA_DIR"
 sudo chown -R 1100:1100 "$GRAYLOG_DATA_DIR"
 
 fancy_echo "Ownership changed, containers restarting. Please wait 2 minutes" "\e[1;32m"
+docker-compose restart
 
 sleep 100
-
-docker-compose restart
 
 fancy_echo "Access Graylog on port 9000" "\e[1;32m"

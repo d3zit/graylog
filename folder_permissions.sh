@@ -13,7 +13,7 @@ GRAYLOG_CONFIG_DIR="${PROJECT_DIR}/config/graylog"
 mkdir -p "$MONGO_DATA_DIR"
 mkdir -p "$OPENSEARCH_DATA_DIR"
 mkdir -p "$GRAYLOG_DATA_DIR"
-mkdir -p "$GRAYLOG_CONFIG_DIR"
+
 
 # Cambia il proprietario delle directory a UID 1000 e GID 1000
 sudo chown -R 1000:1000 "$MONGO_DATA_DIR"

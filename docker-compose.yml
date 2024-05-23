@@ -79,7 +79,7 @@ services:
 
     entrypoint: /usr/bin/tini -- wait-for-it opensearch:9200 -- /docker-entrypoint.sh
     volumes:
-      - "${PWD}/config/graylog/graylog.conf:/usr/share/graylog/config/graylog.conf"
+      - "${PWD}/config/graylog/graylog.conf:/usr/share/graylog/data/config/graylog.conf"
       - "${PWD}/data/graylog:/usr/share/graylog/data"
     networks:
       - graynet

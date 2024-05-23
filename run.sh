@@ -6,7 +6,7 @@ PROJECT_DIR="$(pwd)"
 # Directory dei volumi
 MONGO_DATA_DIR="${PROJECT_DIR}/data/mongo"
 OPENSEARCH_DATA_DIR="${PROJECT_DIR}/data/log"
-GRAYLOG_DATA_DIR="${PROJECT_DIR}/data/graylog_data"
+GRAYLOG_DATA_DIR="${PROJECT_DIR}/data/graylog"
 
 
 # Sposta il file graylog.conf se esiste nella posizione vecchia
@@ -14,22 +14,38 @@ GRAYLOG_DATA_DIR="${PROJECT_DIR}/data/graylog_data"
 #  mv "${PROJECT_DIR}/config/graylog/graylog.conf" "$GRAYLOG_CONFIG_DIR/"
 #fi
 
-# Cambia il proprietario delle directory a UID 1000 e GID 1000
-sudo chown -R 1000:1000 "$MONGO_DATA_DIR"
-sudo chown -R 1000:1000 "$OPENSEARCH_DATA_DIR"
-#sudo chown -R 1000:1000 "$GRAYLOG_DATA_DIR"
 
-
-# Cambia il proprietario della directory Graylog a UID 1100 e GID 1100
-sudo chown -R 1100:1100 "$GRAYLOG_DATA_DIR"
 
 # Imposta i permessi sulle directory
-sudo chmod -R 755 "$MONGO_DATA_DIR"
-sudo chmod -R 755 "$OPENSEARCH_DATA_DIR"
-sudo chmod -R 755 "$GRAYLOG_DATA_DIR"
+#sudo chmod -R 755 "$MONGO_DATA_DIR"
+#sudo chmod -R 755 "$OPENSEARCH_DATA_DIR"
+#sudo chmod -R 755 "$GRAYLOG_DATA_DIR"
 
 
 # Esegui Docker Compose per avviare i container
 docker-compose up -d
 
+echo "attendo alcuni secondi prima di fermare tutti i container"
+sleep 20
+
+echo "Fermo i container"
+docker stop $(docker ps -q)
+
+sleep 5
+
+echo "Cambio i permessi"
+
+# Cambia il proprietario delle directory a UID 1000 e GID 1000
+sudo chown -R 1000:1000 "$MONGO_DATA_DIR"
+sudo chown -R 1000:1000 "$OPENSEARCH_DATA_DIR"
+
+# Cambia il proprietario della directory Graylog a UID 1100 e GID 1100
+sudo chown -R 1100:1100 "$GRAYLOG_DATA_DIR"
+
 echo "Setup completato e container avviati."
+
+
+
+#sudo chown -R 1100:1100 /home/sysop/graylog/data/graylog
+#sudo chown -R 1000:1000 /home/sysop/graylog/data/log
+#sudo chown -R 1000:1000 /home/sysop/graylog/data/mongo

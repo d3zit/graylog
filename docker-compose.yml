@@ -4,14 +4,6 @@ networks:
   graynet:
     driver: bridge
 
-# This is how you persist data between container restarts
-volumes:
-  mongo_data:
-    driver: local
-  log_data:
-    driver: local
-  graylog_data:
-    driver: local
 
 services:
   # Graylog stores configuration in MongoDB
@@ -19,7 +11,7 @@ services:
     image: mongo:6.0.5-jammy
     container_name: mongodb
     volumes:
-      - "mongo_data:/data/db"
+      - "${PWD}/data/mongo:/data/db"
     networks:
       - graynet
     restart: unless-stopped
@@ -37,7 +29,7 @@ services:
       - "plugins.security.disabled=true"
       - "OPENSEARCH_INITIAL_ADMIN_PASSWORD=SetPassw0rdL3ttersAndNumb3r5"
     volumes:
-      - "log_data:/usr/share/opensearch/data"
+      - "${PWD}/data/log:/usr/share/opensearch/data"
     ulimits:
       memlock:
         soft: -1
@@ -81,7 +73,7 @@ services:
     entrypoint: /usr/bin/tini -- wait-for-it opensearch:9200 -- /docker-entrypoint.sh
     volumes:
       - "${PWD}/config/graylog/graylog.conf:/usr/share/graylog/config/graylog.conf"
-      - "graylog_data:/usr/share/graylog/data"
+      - "${PWD}/data/graylog:/usr/share/graylog/data"
     networks:
       - graynet
     restart: always

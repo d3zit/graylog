@@ -10,6 +10,9 @@ services:
   mongo:
     image: mongo:6.0.5-jammy
     container_name: mongodb
+    environment:
+      - PUID=1000
+      - PGID=1000 
     volumes:
       - "${PWD}/data/mongo:/data/db"
     networks:
@@ -21,6 +24,8 @@ services:
     image: opensearchproject/opensearch:2
     container_name: opensearch
     environment:
+      - PUID=1000
+      - PGID=1000 
       - "OPENSEARCH_JAVA_OPTS=-Xms1g -Xmx1g"
       - "bootstrap.memory_lock=true"
       - "discovery.type=single-node"
@@ -47,6 +52,8 @@ services:
     image: graylog/graylog:6.0
     container_name: graylog
     environment:
+      - PUID=1000
+      - PGID=1000 
       # CHANGE ME (must be at least 16 characters)!
       GRAYLOG_PASSWORD_SECRET: "somepasswordpepper"
       # Password: admin

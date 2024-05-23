@@ -1,11 +1,21 @@
-# Overview
+# Overview - Graylog 6 Docker Compose
 
-This is a mix of [graylog2 open-core](https://github.com/Graylog2/docker-compose/blob/main/open-core/docker-compose.yml) and [graylog2 docker install docs.](https://go2docs.graylog.org/5-0/downloading_and_installing_graylog/docker_installation.htm)
+This is a slightly modified version of the one proposed by Tom Lawrence.
+
+[Github Lawrence Systems](https://github.com/lawrencesystems/graylog)
+
+
+This repository allows installing Graylog V6 using bind mounts instead of the local driver. To achieve this, the volume dedicated to Graylog data must have an owner different from the default.
+
 
 # Usage
 
 ```
-docker compose up
+git clone -b graylog6 https://github.com/d3zit/graylog.git
+cd graylog
+chmod +x run.sh
+./run.sh
+
 ```
 
 Access graylog [here.](http://localhost:9000)

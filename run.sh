@@ -1,39 +1,35 @@
 #!/bin/bash
 
-# Percorso della directory del progetto
+# Working directory
 PROJECT_DIR="$(pwd)"
 
-# Directory dei volumi
+# Bind volumes directories
 MONGO_DATA_DIR="${PROJECT_DIR}/data/mongo"
 OPENSEARCH_DATA_DIR="${PROJECT_DIR}/data/log"
 GRAYLOG_DATA_DIR="${PROJECT_DIR}/data/graylog"
 
-
-# Sposta il file graylog.conf se esiste nella posizione vecchia
-#if [ -f "${PROJECT_DIR}/config/graylog/graylog.conf" ]; then
-#  mv "${PROJECT_DIR}/config/graylog/graylog.conf" "$GRAYLOG_CONFIG_DIR/"
-#fi
-
-
-
-# Imposta i permessi sulle directory
-#sudo chmod -R 755 "$MONGO_DATA_DIR"
-#sudo chmod -R 755 "$OPENSEARCH_DATA_DIR"
-#sudo chmod -R 755 "$GRAYLOG_DATA_DIR"
+echo() {
+  local message=$1
+  local color=$2
+  echo -e "${color}******************************************\e[0m"
+  echo -e "${color}* ${message} *\e[0m"
+  echo -e "${color}******************************************\e[0m"
+}
 
 
-# Esegui Docker Compose per avviare i container
+# Run docker to launch containers
 docker-compose up -d
 
-echo "attendo alcuni secondi prima di fermare tutti i container"
+echo "Waiting a few seconds before stopping running containers, please wait" "\e[1;31m"
 sleep 20
 
-echo "Fermo i container"
+echo "Stopping containers" "\e[1;31m"
+
 docker stop $(docker ps -q)
 
 sleep 5
 
-echo "Cambio i permessi"
+echo "Change folder ownership in progress" "\e[1;33m"
 
 # Cambia il proprietario delle directory a UID 1000 e GID 1000
 sudo chown -R 1000:1000 "$MONGO_DATA_DIR"
@@ -42,10 +38,10 @@ sudo chown -R 1000:1000 "$OPENSEARCH_DATA_DIR"
 # Cambia il proprietario della directory Graylog a UID 1100 e GID 1100
 sudo chown -R 1100:1100 "$GRAYLOG_DATA_DIR"
 
-echo "Setup completato e container avviati."
+echo "Ownership changed, containers restarting. Please wait 2 minutes" "\e[1;32m"
 
+sleep 100
 
+docker-compose restart
 
-#sudo chown -R 1100:1100 /home/sysop/graylog/data/graylog
-#sudo chown -R 1000:1000 /home/sysop/graylog/data/log
-#sudo chown -R 1000:1000 /home/sysop/graylog/data/mongo
+echo "Access Graylog on port 9000" "\e[1;32m"

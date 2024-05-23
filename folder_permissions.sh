@@ -18,7 +18,7 @@ mkdir -p "$GRAYLOG_CONFIG_DIR"
 # Cambia il proprietario delle directory a UID 1000 e GID 1000
 sudo chown -R 1000:1000 "$MONGO_DATA_DIR"
 sudo chown -R 1000:1000 "$OPENSEARCH_DATA_DIR"
-sudo chown -R 1000:1000 "$GRAYLOG_CONFIG_DIR"
+sudo chown -R 1100:1100 "$GRAYLOG_CONFIG_DIR"
 
 # Cambia il proprietario della directory Graylog a UID 1100 e GID 1100
 sudo chown -R 1100:1100 "$GRAYLOG_DATA_DIR"

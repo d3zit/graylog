@@ -18,20 +18,16 @@ mkdir -p "$GRAYLOG_CONFIG_DIR"
 # Cambia il proprietario delle directory a UID 1000 e GID 1000
 sudo chown -R 1000:1000 "$MONGO_DATA_DIR"
 sudo chown -R 1000:1000 "$OPENSEARCH_DATA_DIR"
-sudo chown -R 1000:1000 "$GRAYLOG_DATA_DIR"
 sudo chown -R 1000:1000 "$GRAYLOG_CONFIG_DIR"
+
+# Cambia il proprietario della directory Graylog a UID 1100 e GID 1100
+sudo chown -R 1100:1100 "$GRAYLOG_DATA_DIR"
 
 # Imposta i permessi sulle directory
 sudo chmod -R 755 "$MONGO_DATA_DIR"
 sudo chmod -R 755 "$OPENSEARCH_DATA_DIR"
 sudo chmod -R 755 "$GRAYLOG_DATA_DIR"
 sudo chmod -R 755 "$GRAYLOG_CONFIG_DIR"
-
-# Aggiungi permessi di scrittura alle directory specifiche
-sudo chmod -R 775 "$GRAYLOG_DATA_DIR"
-
-# Cambia temporaneamente la proprietà dei volumi per Graylog
-docker run --rm -v "$GRAYLOG_DATA_DIR:/usr/share/graylog/data" alpine chown -R 1100:1100 /usr/share/graylog/data
 
 # Esegui Docker Compose per avviare i container
 docker-compose up -d

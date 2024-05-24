@@ -15,6 +15,15 @@ This repository allows installing Graylog V6 using bind mounts instead of the lo
 git clone -b graylog6 https://github.com/d3zit/graylog.git
 cd graylog
 ```
+
+If you need to change the timezone of your server, you can use the provided script
+
+```
+chmod +x set-timezone.sh
+./set-timezone.sh
+
+```
+
 Now you need to create secret and password that will be added to docker-compose.yml
 
 Generate a password secret
@@ -31,7 +40,7 @@ echo -n "Enter Password: " && head -1 </dev/stdin | tr -d '\n' | sha256sum | cut
 ```
 Enter the admin password that you'd like to use and place the password hash in the docker-compose.yml for root_password_sha2 (GRAYLOG_ROOT_PASSWORD_SHA2)
 
-Then run the script
+Then run the script as sudo
 
 ```
 chmod +x run.sh

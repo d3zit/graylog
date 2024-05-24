@@ -16,6 +16,8 @@ fancy_echo() {
   echo -e "${color}******************************************\e[0m"
 }
 
+
+
 # Run docker to launch containers
 docker-compose up -d
 

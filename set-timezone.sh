@@ -16,7 +16,7 @@ echo "You selected: $timezone"
 read -p "Do you want to apply this timezone (y/n): " confirm
 
 # Se l'utente conferma, imposta la nuova timezone
-if [[ $confirm == "s" || $confirm == "S" ]]; then
+if [[ $confirm == "y" || $confirm == "Y" ]]; then
     sudo timedatectl set-timezone $timezone
     echo "Timezone changed to $timezone"
 else

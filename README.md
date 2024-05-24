@@ -13,6 +13,16 @@ This repository allows installing Graylog V6 using bind mounts instead of the lo
 ```
 git clone -b graylog6 https://github.com/d3zit/graylog.git
 cd graylog
+
+Generate a password secret
+pwgen -N 1 -s 96
+Place that secret in the configuration for password_secret (GRAYLOG_PASSWORD_SECRET)
+Pick an admin password. (e.g. hunter2)
+Hash that password using the command
+echo -n "Enter Password: " && head -1 </dev/stdin | tr -d '\n' | sha256sum | cut -d" " -f1
+Place the password hash (from step 4) in the configuration for root_password_sha2 (GRAYLOG_ROOT_PASSWORD_SHA2)
+Log in with username admin and the non-hashed password (from step 3)
+
 chmod +x run.sh
 ./run.sh
 
